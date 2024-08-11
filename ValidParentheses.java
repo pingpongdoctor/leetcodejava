@@ -2,7 +2,7 @@ import java.util.HashMap;
 import java.util.Stack;
 
 //20. Valid Parentheses
-class main {
+class ValidParentheses {
   public boolean isValid(String s) {
     HashMap<Character,Character> closings = new HashMap<Character,Character>();
     closings.put(')','(');
