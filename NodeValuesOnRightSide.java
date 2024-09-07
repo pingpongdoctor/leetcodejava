@@ -2,8 +2,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-// 102. Binary Tree Level Order Traversal
-class BFSTreeTraversal {
+
+// 199. Binary Tree Right Side View
+class NodeValuesOnRightSide {
   public class TreeNode {
     int val;
     TreeNode left;
@@ -16,18 +17,21 @@ class BFSTreeTraversal {
       this.right = right;
     }
   }
-  public List<List<Integer>> levelOrder(TreeNode root) {
-      List<List<Integer>> list = new ArrayList<List<Integer>>();
+  public List<Integer> rightSideView(TreeNode root) {
       Queue<TreeNode> queue = new LinkedList<TreeNode>();
-      if(root!=null){
-          queue.add(root);
+      List<Integer> valueOnRightSide = new ArrayList<Integer>();
+
+      if(root==null){
+          return valueOnRightSide;
       }
+
+      queue.add(root);
       while(!queue.isEmpty()){
-          int levelLength = queue.size();
-          List<Integer> curLevelNodeVals = new ArrayList<Integer>();
-          for(int i = 0; i<levelLength; i++){
+          TreeNode rightMostNode = null;//get the valu on the right of each level
+          int levelSize = queue.size();
+          for(int i=0; i<levelSize; i++){//each iteration looping through nodes in each level from left to right
               TreeNode cur = queue.remove();
-              curLevelNodeVals.add(cur.val);
+              rightMostNode = cur;
               if(cur.left!=null){
                   queue.add(cur.left);
               }
@@ -35,11 +39,8 @@ class BFSTreeTraversal {
                   queue.add(cur.right);
               }
           }
-          if(curLevelNodeVals.isEmpty()==false){
-              list.add(curLevelNodeVals);
-          }
-          
+          valueOnRightSide.add(rightMostNode.val); 
       }
-      return list;
+      return valueOnRightSide;
   }
 }
