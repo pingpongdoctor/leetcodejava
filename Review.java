@@ -113,4 +113,19 @@ public class Review {
     }
     return list;
   }
+
+  //review binary search tree
+  public boolean searchTargetInBinarySearchTree(TreeNode root, int target){
+    if(root==null){
+      return false;
+    }
+
+    if(root.val<target){
+      return searchTargetInBinarySearchTree(root.right, target);
+    } else if(root.val>target){
+      return searchTargetInBinarySearchTree(root.left, target);
+    } else {
+      return true;
+    }
+  }
 }
