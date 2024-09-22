@@ -91,4 +91,26 @@ public class Review {
     quickSort(list,l+1,e);
     return list;
   }
+  //review bucket sort
+  public int[] bucketSort(int[] list){
+    if(list.length<=1){
+      return list;
+    }
+    int[] count = {0,0,0};
+    //loop to count numbers of duplicate values in lists
+    for(int i = 0;i<list.length;i++){
+      count[list[i]]++;
+    }
+    
+    int i=0;
+    //loop to access values (index of count is value and value at each index of count is the frequency of value)
+    for(int j = 0;j<count.length;j++){
+      //loop to get the number of times to add value
+      for(int k = 0; k<count[j]; k++){
+        list[i]=j;
+        i++;
+      }
+    }
+    return list;
+  }
 }
