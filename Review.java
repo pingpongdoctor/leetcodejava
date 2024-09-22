@@ -70,5 +70,25 @@ public class Review {
   }
 
   //review quick sort
-  
+  public int[] quickSort(int[] list,int s,int e){
+    if(e<=s){
+      return list;//skip sorting if there is less than or equal to 1 element
+    }
+    int l = s;//create a copy of start index
+    int pivot = list[e];//get the pivot
+
+    for(int i = s; i<e; i++){
+      if(list[i]<pivot){
+        int tmp = list[l];
+        list[l] = list[i];
+        list[i ]= tmp;
+        l++;
+      }
+    }
+    list[e] = list[l];
+    list[l] = pivot;
+    quickSort(list,s,l-1);
+    quickSort(list,l+1,e);
+    return list;
+  }
 }
