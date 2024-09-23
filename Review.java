@@ -215,4 +215,19 @@ public class Review {
       level++;
     }
   }
+
+  //review treemaze
+  public boolean isTherePath(TreeNode root){
+    if(root==null||root.val==0){return false;}
+    if(root.left==null&&root.right==null){
+      return true;
+    }
+    if(isTherePath(root.left)){
+      return true;
+    }
+    if(isTherePath(root.right)){
+      return true;
+    }
+    return false;
+  }
 }
