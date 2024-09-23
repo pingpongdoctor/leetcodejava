@@ -128,4 +128,50 @@ public class Review {
       return true;
     }
   }
+
+  //review insert and remove node in BST
+  public TreeNode insertTreeNode(TreeNode root, int val){
+    if(root == null){
+      return new TreeNode(val);
+    }
+    if(val<root.val){
+      root.left=insertTreeNode(root.left, val);
+    }else if(
+      val>root.val
+    ){
+      root.right=insertTreeNode(root.right, val);
+    }
+    return root;
+  }
+
+  public TreeNode removeTreeNode(TreeNode root, int val){
+    if(root==null){
+      return null;
+    }
+
+    if(val>root.val){
+      root.right = removeTreeNode(root.right,val);
+    }else if(val<root.val){
+      root.left = removeTreeNode(root.left, val);
+    } else{
+      if(root.right==null){
+        return root.left;
+      }else if(root.left==null){
+        return root.right;
+      }else{
+        TreeNode minTreeNode = minNode(root.right);
+        root.val=minTreeNode.val;
+        root.right=removeTreeNode(root.right, minTreeNode.val);
+      }
+    }
+    return root;
+  }
+
+  public TreeNode minNode(TreeNode root){
+    TreeNode cur = root;
+    while(cur!=null&&cur.left!=null){
+      cur=cur.left;
+    }
+    return cur;
+  }
 }
