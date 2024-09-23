@@ -1,3 +1,6 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class Review {
   //review mergSort
   //logn
@@ -184,5 +187,32 @@ public class Review {
     System.out.println(root.val);
     preOrderTraversal(root.left);
     preOrderTraversal(root.right);
+  }
+
+  //review BFS
+  //add root to queue
+  //first loop checks if queue is not empty
+  //second loop print out all values of nodes in the current values and add add nodes in the next level to queue
+  public void implementBFS(TreeNode root){
+    Queue<TreeNode> queue = new LinkedList<TreeNode>();
+
+    if(root!=null){
+      queue.add(root);
+    }
+    int level = 0;
+    while(!queue.isEmpty()){
+      int curLevelSize = queue.size();
+      for(int i = 0;i<curLevelSize;i++){
+        TreeNode cur = queue.remove();
+        System.out.println(cur.val);
+        if(cur.right!=null){
+          queue.add(cur.right);
+        }
+        if(cur.left!=null){
+          queue.add(cur.left);
+        }
+      }
+      level++;
+    }
   }
 }
