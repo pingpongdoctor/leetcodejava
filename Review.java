@@ -174,4 +174,15 @@ public class Review {
     }
     return cur;
   }
+
+  //review DFS
+  //pre-order
+  public void preOrderTraversal(TreeNode root){
+    if(root==null){
+      return;
+    }
+    System.out.println(root.val);
+    preOrderTraversal(root.left);
+    preOrderTraversal(root.right);
+  }
 }
