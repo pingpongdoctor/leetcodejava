@@ -1,4 +1,4 @@
-class Solution {
+class PathSum {
   public boolean dfs(TreeNode root, int targetSum, int curSum) {
       if(root==null){
           return false;
