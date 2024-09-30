@@ -199,7 +199,6 @@ public class Review {
     if(root!=null){
       queue.add(root);
     }
-    int level = 0;
     while(!queue.isEmpty()){
       int curLevelSize = queue.size();
       for(int i = 0;i<curLevelSize;i++){
@@ -212,7 +211,6 @@ public class Review {
           queue.add(cur.left);
         }
       }
-      level++;
     }
   }
 
@@ -229,5 +227,34 @@ public class Review {
       return true;
     }
     return false;
+  }
+
+  //Matrix DFS
+  //look unique paths of value 0 nodes
+  public int matrixDFS(int[][]grid, int[][]visit, int r, int c){
+    int rows = grid.length;
+    int cols = grid[0].length;
+    //base cases
+    if(
+      //coordinate outbound of grid
+      Math.min(r,c)<0||r==rows||c==cols||
+      //we reach the visited coordinate
+      visit[r][c]==1 ||
+      //we reach the node with value 1
+      grid[r][c]==1
+    ){
+      return 0;
+    }
+    //if we does not reach the base case above, memmorize the visited coordinate
+    visit[r][c]=1;
+    //traverse in 4 directions
+    int count = 0;
+    count += matrixDFS(grid, visit, r+1, c);
+    count += matrixDFS(grid, visit, r-1, c);
+    count += matrixDFS(grid, visit, r, c+1);
+    count += matrixDFS(grid, visit, r, c-1);
+    //delete visited coordinates when we backtrack since we want these coordinates can be visited again in other directions
+    visit[r][c]=0;
+    return count;
   }
 }
