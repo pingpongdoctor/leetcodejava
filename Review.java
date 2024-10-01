@@ -245,6 +245,10 @@ public class Review {
     ){
       return 0;
     }
+    //if we reached the bottom right node, return 1 and backtrack to look for other path
+    if(r==rows-1&&c==cols-1){
+      return 1;
+    }
     //if we does not reach the base case above, memmorize the visited coordinate
     visit[r][c]=1;
     //traverse in 4 directions
@@ -256,5 +260,52 @@ public class Review {
     //delete visited coordinates when we backtrack since we want these coordinates can be visited again in other directions
     visit[r][c]=0;
     return count;
+  }
+
+  //Matrix BFS
+  public int matrixBFS(int[][] grid){
+    //set up
+    int rows = grid.length;
+    int cols = grid[0].length;
+    int [][] visit = new int[rows][cols];
+    Queue<int[]> queue = new LinkedList<int[]>();
+    visit[0][0]=1;
+    queue.add(new int[2]);
+    //declare and initialize smallest steps to reach the bottom right vertex
+    int steps = 0;
+    //check base case where path is blocked at the top left and right bottom vertices
+    if(grid[0][0]==1&&grid[rows-1][cols-1]==1){
+      return steps;
+    }
+    //BFS
+    while(!queue.isEmpty()){
+      //
+      int queueSize = queue.size();
+      //loop through all vertices in queue
+      for(int i = 0; i<queueSize; i++){
+        int[] pair = queue.poll();
+        int r = pair[0];
+        int c = pair[1];
+        //check if we reached the bottom right vertex
+        if(r==rows-1&&c==cols-1){
+          return steps;
+        }
+        //check neighbors vertices
+        int[][] neighbors = {{r,c+1},{r,c-1},{r+1,c},{r-1,c}};
+        for(int[] n : neighbors){
+          int newR = n[0];
+          int newC = n[1];
+          if(Math.min(newR,newC)<0 || newR == rows || newC == cols || grid[newR][newC] == 1 || visit[newR][newC] == 1){
+            continue;
+          }
+          //add neighbours to queue if they are not out bound, not blocked and not visited
+          //mark them as being visited
+          queue.add(n);
+          visit[newR][newC] = 1;
+        }
+      }
+      steps++;
+    }
+    return steps;
   }
 }
