@@ -2,7 +2,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 //994. Rotting Oranges
-class RottingOranges {
+class RottingOranges_Simon {
   public int orangesRotting(int[][] grid) {
     // set up
     int rows = grid.length;
