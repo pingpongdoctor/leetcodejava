@@ -1,4 +1,9 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 
 public class Review {
@@ -282,7 +287,7 @@ public class Review {
     // check base case where path is blocked at the top left and right bottom
     // vertices
     if (grid[0][0] == 1 && grid[rows - 1][cols - 1] == 1) {
-      return steps;
+      return -1;
     }
     // BFS
     while (!queue.isEmpty()) {
@@ -311,6 +316,78 @@ public class Review {
           // mark them as being visited
           queue.add(n);
           visit[newR][newC] = 1;
+        }
+      }
+      steps++;
+    }
+    return -1;
+  }
+
+  // Adjacency list
+  // Give a list of edges, build an adjacency list
+  public Map<String, ArrayList<String>> buildAdjacencyList(String[][] edges) {
+    Map<String, ArrayList<String>> adjList = new HashMap<String, ArrayList<String>>();
+
+    for (String[] edge : edges) {
+      String src = edge[0];
+      String dst = edge[1];
+      if (!adjList.containsKey(src)) {
+        adjList.put(src, new ArrayList<String>());
+      }
+      if (!adjList.containsKey(dst)) {
+        adjList.put(dst, new ArrayList<String>());
+      }
+      adjList.get(src).add(dst);
+    }
+    return new HashMap<String, ArrayList<String>>();
+  }
+
+  // DFS on adjacency list
+  public int dfsAdjacencyList(Map<String, ArrayList<String>> adjList, HashSet<String> visit, String s, String e) {
+    if (visit.contains(s)) {
+      return 0;
+    }
+    if (e.equals(s)) {
+      return 1;
+    }
+    int count = 0;
+    visit.add(s);
+    for (String neighbor : adjList.get(s)) {
+      count += dfsAdjacencyList(adjList, visit, neighbor, e);
+    }
+    visit.remove(s);
+    return count;
+  }
+
+  // BFS an adjacency list
+  public int bfsAdjacencyList(Map<String, ArrayList<String>> adjList, String s, String e) {
+    // base case
+    if (s.equals(e)) {
+      return 0;
+    }
+    if (!adjList.containsKey(s) || !adjList.containsKey(e)) {
+      return -1;
+    }
+    // set up
+    int steps = 0;
+    HashSet<String> visit = new HashSet<String>();
+    Queue<String> queue = new LinkedList<String>();
+    visit.add(s);
+    queue.add(s);
+
+    while (!queue.isEmpty()) {
+      int curSize = queue.size();
+      for (int i = 0; i < curSize; i++) {
+        String curNode = queue.poll();
+        if (curNode.equals(e)) {
+          return steps;
+        }
+        for (String neighbor : adjList.get(curNode)) {
+          if (visit.contains(neighbor)) {
+            continue;
+          }
+          queue.add(neighbor);
+          visit.add(neighbor);
         }
       }
       steps++;
