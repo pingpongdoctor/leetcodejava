@@ -393,4 +393,43 @@ public class Review {
     }
     return -1;
   }
+
+  // 2 Dimension DP
+  // Optimize Matrix DFS (No specific exit coordinate required)
+  // Recursion with no optimization - Memoization
+  public int dfsMatrixNoMemoization(int r, int c, int[][] grid) {
+    int rows = grid.length;
+    int cols = grid[0].length;
+
+    if (r == rows && c == cols) {
+      return 0;
+    }
+    if (r == rows - 1 && c == cols - 1) {
+      return 1;
+    }
+
+    return dfsMatrixNoMemoization(r + 1, c, grid) + dfsMatrixNoMemoization(r, c + 1, grid);
+  }
+
+  // Recursion with memoization
+  public int dfsMatrixMemoization(int r, int c, int[][] grid, int[][] cache) {
+    int rows = grid.length;
+    int cols = grid[0].length;
+
+    if (r == rows && c == cols) {
+      return 0;
+    }
+
+    if (cache[r][c] != -1) {
+      return cache[r][c];
+    }
+
+    if (r == rows - 1 && c == cols - 1) {
+      return 1;
+    }
+
+    cache[r][c] = dfsMatrixMemoization(r + 1, c, grid, cache) + dfsMatrixMemoization(r, c + 1, grid, cache);
+
+    return cache[r][c];
+  }
 }
