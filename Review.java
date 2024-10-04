@@ -411,8 +411,8 @@ public class Review {
     return dfsMatrixNoMemoization(r + 1, c, grid) + dfsMatrixNoMemoization(r, c + 1, grid);
   }
 
-  // Recursion with memoization
-  public int dfsMatrixMemoization(int r, int c, int[][] grid, int[][] cache) {
+  // Recursion with memoization (Top-Down Approach)
+  public int topDownDfsMatrix(int r, int c, int[][] grid, int[][] cache) {
     int rows = grid.length;
     int cols = grid[0].length;
 
@@ -428,8 +428,28 @@ public class Review {
       return 1;
     }
 
-    cache[r][c] = dfsMatrixMemoization(r + 1, c, grid, cache) + dfsMatrixMemoization(r, c + 1, grid, cache);
+    cache[r][c] = topDownDfsMatrix(r + 1, c, grid, cache) + topDownDfsMatrix(r, c + 1, grid, cache);
 
     return cache[r][c];
+  }
+
+  // Bottom-up approach
+  public int bottomUpDfsMatrix(int[][] grid, int r, int c) {
+    // idea is that the last column is filled with 1 step, then we
+    // calculate back from the base case
+    int rows = grid.length;
+    int cols = grid[0].length;
+
+    int[] prevRow = new int[cols];
+
+    for (int i = rows - 1; i >= 0; i--) {
+      int[] curRow = new int[cols];
+      curRow[cols - 1] = 1;
+      for (int j = cols - 2; j >= 0; j--) {
+        curRow[j] = curRow[j + 1] + prevRow[j];
+      }
+      prevRow = curRow;
+    }
+    return prevRow[0];
   }
 }
