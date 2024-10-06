@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
@@ -412,6 +413,19 @@ public class Review {
   }
 
   // Recursion with memoization (Top-Down Approach)
+  public int fibonacciWithCaching(int n, int[] cache) {
+    if (n <= 1) {
+      return n;
+    }
+    if (cache[n] != -1) {
+      return cache[n];
+    }
+
+    cache[n] = fibonacciWithCaching(n - 1, cache) + fibonacciWithCaching(n - 2, cache);
+    ;
+    return cache[n];
+  }
+
   public int topDownDfsMatrix(int r, int c, int[][] grid, int[][] cache) {
     int rows = grid.length;
     int cols = grid[0].length;
@@ -433,7 +447,22 @@ public class Review {
     return cache[r][c];
   }
 
-  // Bottom-up approach
+  // Bottom-up approach - Tabulation
+  public int fibonacciTabulationSolution(int n) {
+    if (n <= 1) {
+      return n;
+    }
+    int[] fiboCal = { 0, 1 };
+
+    for (int i = 2; i <= n; i++) {
+      int tmp = fiboCal[1];
+      fiboCal[1] = fiboCal[0] + fiboCal[1];
+      fiboCal[0] = tmp;
+    }
+
+    return fiboCal[n];
+  }
+
   public int bottomUpDfsMatrix(int[][] grid, int r, int c) {
     // idea is that the last column is filled with 1 step, then we
     // calculate back from the base case
