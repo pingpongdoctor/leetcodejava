@@ -9,7 +9,7 @@ import java.util.Set;
 
 // 547. Number of Provinces
 //DFS and BFS have the same performance since we need them to traverse through all vertices
-class NumberOfProvinces {
+class NumberOfProvinces_Simon {
   private Map<Integer, List<Integer>> buildAdjList(int[][] isConnected) {
     Map<Integer, List<Integer>> map = new HashMap<>();
     for (int k = 0; k < isConnected.length; k++) {
