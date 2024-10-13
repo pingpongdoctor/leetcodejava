@@ -518,4 +518,19 @@ public class Review {
     int[] result = { maxL, maxR };
     return result;
   }
+
+  // Sliding window with fixed size list
+  // Return true if there are 2 duplicate elements in sub lists with size k
+  // Brute force solution with two loops
+  public boolean findTwoDuplicateValuesInList(int[] inputList, int k) {
+
+    for (int L = 0; L < inputList.length; L++) {
+      for (int R = L + 1; R <= Math.min(inputList.length - 1, L + k - 1); R++) {
+        if (inputList[R] == inputList[L]) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
 }
