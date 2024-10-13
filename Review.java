@@ -480,4 +480,42 @@ public class Review {
     }
     return prevRow[0];
   }
+
+  // find the largest sum of sublists in a list
+  // Kadane algorithm
+  public int findTheLargestSum(int[] inputVal) {
+    int curSum = 0;
+    int maxSum = inputVal[0];
+    for (int i = 0; i < inputVal.length; i++) {
+      curSum = Math.max(curSum, 0);
+      curSum += inputVal[i];
+      maxSum = Math.max(curSum, maxSum);
+    }
+
+    return maxSum;
+  }
+
+  // find the sublist in a list that has the largest sum
+  // Sliding window
+  public int[] findSublistThatHasTheLargestSum(int[] inputVal) {
+    int L = 0;
+    int maxL = 0;
+    int maxR = 0;
+    int cur = 0;
+    int max = inputVal[0];
+    for (int R = 0; R < inputVal.length; R++) {
+      if (cur < 0) {
+        cur = 0;
+        L = R;
+      }
+      cur += inputVal[R];
+      if (max < cur) {
+        max = cur;
+        maxL = L;
+        maxR = R;
+      }
+    }
+    int[] result = { maxL, maxR };
+    return result;
+  }
 }
