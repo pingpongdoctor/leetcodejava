@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 
 public class Review {
   // review mergSort
@@ -522,14 +523,30 @@ public class Review {
   // Sliding window with fixed size list
   // Return true if there are 2 duplicate elements in sub lists with size k
   // Brute force solution with two loops
-  public boolean findTwoDuplicateValuesInList(int[] inputList, int k) {
-
+  public boolean findTwoDuplicateValuesInFixedSizeSubListBruteForce(int[] inputList, int k) {
     for (int L = 0; L < inputList.length; L++) {
       for (int R = L + 1; R <= Math.min(inputList.length - 1, L + k - 1); R++) {
         if (inputList[R] == inputList[L]) {
           return true;
         }
       }
+    }
+    return false;
+  }
+
+  // Sliding window solution
+  public boolean findTwoDuplicateValuesInFixedSizeSubListSlidingWindow(int[] inputList, int k) {
+    Set<Integer> window = new HashSet<>();
+    int L = 0;
+    for (int R = 0; R < inputList.length; R++) {
+      if (R - L + 1 > k) {
+        window.remove(inputList[L]);
+        L++;
+      }
+      if (window.contains(inputList[R])) {
+        return true;
+      }
+      window.add(inputList[R]);
     }
     return false;
   }
