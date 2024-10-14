@@ -534,8 +534,9 @@ public class Review {
     return false;
   }
 
-  // Sliding window solution
-  public boolean findTwoDuplicateValuesInFixedSizeSubListSlidingWindow(int[] inputList, int k) {
+  // Sliding fixed window solution
+  // if we need to find more than two duplicate values, we can use hashset
+  public boolean findTwoDuplicateSlidingFixedWindow(int[] inputList, int k) {
     Set<Integer> window = new HashSet<>();
     int L = 0;
     for (int R = 0; R < inputList.length; R++) {
@@ -549,5 +550,20 @@ public class Review {
       window.add(inputList[R]);
     }
     return false;
+  }
+
+  // Sliding window with variable size
+  public int findTheLengthOfLongestArrayWithTheSameValueInEachPosition(int[] inputList) {
+    int L = 0;
+    int maxL = 0;
+    for (int R = 0; R < inputList.length; R++) {
+      if (inputList[L] != inputList[R]) {
+        L = R;
+      }
+      if (R - L + 1 > maxL) {
+        maxL = Math.max(maxL, R - L + 1);
+      }
+    }
+    return maxL;
   }
 }
