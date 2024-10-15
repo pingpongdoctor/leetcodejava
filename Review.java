@@ -560,10 +560,29 @@ public class Review {
       if (inputList[L] != inputList[R]) {
         L = R;
       }
-      if (R - L + 1 > maxL) {
-        maxL = Math.max(maxL, R - L + 1);
-      }
+      maxL = Math.max(maxL, R - L + 1);
+
     }
     return maxL;
+  }
+
+  // Find the minimum length subarray, where the sum is greater than or equal to
+  // the target. Assume all values are positive.
+  public int findMinimumLength(int[] inputList, int target) {
+    int L = 0;
+    int curSum = 0;
+    int minL = Integer.MAX_VALUE;
+    for (int R = 0; R < inputList.length; R++) {
+      curSum += inputList[R];
+      if (curSum > target) {
+        minL = Math.min(minL, R - L + 1);
+        curSum -= inputList[L];
+        L++;
+      }
+    }
+    if (minL == Integer.MAX_VALUE) {
+      return 0;
+    }
+    return minL;
   }
 }
