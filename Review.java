@@ -618,4 +618,23 @@ public class Review {
     }
     return null;
   }
+
+  // Prefix sum
+  // Use prefix sum to calculate sum of sublists
+  public int[] buildPrefixSum(int[] inputList) {
+    int[] prefixSum = new int[inputList.length];
+    int sum = 0;
+    for (int i = 0; i < inputList.length; i++) {
+      sum += inputList[i];
+      prefixSum[i] = sum;
+    }
+    return prefixSum;
+  }
+
+  // Given an array of integer values, calculate sum of subarray from l to r
+  // indices
+  public int sumRange(int[] inputList, int l, int r) {
+    int[] prefixSum = buildPrefixSum(inputList);
+    return prefixSum[r] - prefixSum[l > 0 ? l - 1 : 0];
+  }
 }
