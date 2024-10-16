@@ -70,8 +70,8 @@ public class Review {
     for (int i = 1; i < list.length; i++) {
       int j = i - 1;
       while (j >= 0 && list[j] > list[j + 1]) {
-        int tmp = list[j - 1];
-        list[j - 1] = list[j];
+        int tmp = list[j + 1];
+        list[j + 1] = list[j];
         list[j] = tmp;
         j--;
       }
@@ -80,9 +80,9 @@ public class Review {
   }
 
   // review quick sort
-  public int[] quickSort(int[] list, int s, int e) {
+  public void quickSort(int[] list, int s, int e) {
     if (e <= s) {
-      return list;// skip sorting if there is less than or equal to 1 element
+      return;// skip sorting if there is less than or equal to 1 element
     }
     int l = s;// create a copy of start index
     int pivot = list[e];// get the pivot
@@ -99,7 +99,6 @@ public class Review {
     list[l] = pivot;
     quickSort(list, s, l - 1);
     quickSort(list, l + 1, e);
-    return list;
   }
 
   // review bucket sort
