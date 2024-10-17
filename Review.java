@@ -573,7 +573,7 @@ public class Review {
     int minL = Integer.MAX_VALUE;
     for (int R = 0; R < inputList.length; R++) {
       curSum += inputList[R];
-      if (curSum > target) {
+      while (curSum > target) {
         minL = Math.min(minL, R - L + 1);
         curSum -= inputList[L];
         L++;
