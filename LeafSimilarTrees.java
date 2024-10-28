@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // 872. Leaf-Similar Trees
+//DFS solution using post order traversal
 public class LeafSimilarTrees {
   private void dfs(TreeNode root, List<Integer> result) {
     if (root == null) {
