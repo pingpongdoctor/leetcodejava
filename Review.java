@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 
 public class Review {
   // review mergSort
@@ -69,8 +70,8 @@ public class Review {
     for (int i = 1; i < list.length; i++) {
       int j = i - 1;
       while (j >= 0 && list[j] > list[j + 1]) {
-        int tmp = list[j - 1];
-        list[j - 1] = list[j];
+        int tmp = list[j + 1];
+        list[j + 1] = list[j];
         list[j] = tmp;
         j--;
       }
@@ -79,9 +80,9 @@ public class Review {
   }
 
   // review quick sort
-  public int[] quickSort(int[] list, int s, int e) {
+  public void quickSort(int[] list, int s, int e) {
     if (e <= s) {
-      return list;// skip sorting if there is less than or equal to 1 element
+      return;// skip sorting if there is less than or equal to 1 element
     }
     int l = s;// create a copy of start index
     int pivot = list[e];// get the pivot
@@ -98,7 +99,6 @@ public class Review {
     list[l] = pivot;
     quickSort(list, s, l - 1);
     quickSort(list, l + 1, e);
-    return list;
   }
 
   // review bucket sort
@@ -412,6 +412,19 @@ public class Review {
   }
 
   // Recursion with memoization (Top-Down Approach)
+  public int fibonacciWithCaching(int n, int[] cache) {
+    if (n <= 1) {
+      return n;
+    }
+    if (cache[n] != -1) {
+      return cache[n];
+    }
+
+    cache[n] = fibonacciWithCaching(n - 1, cache) + fibonacciWithCaching(n - 2, cache);
+    ;
+    return cache[n];
+  }
+
   public int topDownDfsMatrix(int r, int c, int[][] grid, int[][] cache) {
     int rows = grid.length;
     int cols = grid[0].length;
@@ -433,7 +446,22 @@ public class Review {
     return cache[r][c];
   }
 
-  // Bottom-up approach
+  // Bottom-up approach - Tabulation
+  public int fibonacciTabulationSolution(int n) {
+    if (n <= 1) {
+      return n;
+    }
+    int[] fiboCal = { 0, 1 };
+
+    for (int i = 2; i <= n; i++) {
+      int tmp = fiboCal[1];
+      fiboCal[1] = fiboCal[0] + fiboCal[1];
+      fiboCal[0] = tmp;
+    }
+
+    return fiboCal[n];
+  }
+
   public int bottomUpDfsMatrix(int[][] grid, int r, int c) {
     // idea is that the last column is filled with 1 step, then we
     // calculate back from the base case
@@ -451,5 +479,162 @@ public class Review {
       prevRow = curRow;
     }
     return prevRow[0];
+  }
+
+  // find the largest sum of sublists in a list
+  // Kadane algorithm
+  public int findTheLargestSum(int[] inputVal) {
+    int curSum = 0;
+    int maxSum = inputVal[0];
+    for (int i = 0; i < inputVal.length; i++) {
+      curSum = Math.max(curSum, 0);
+      curSum += inputVal[i];
+      maxSum = Math.max(curSum, maxSum);
+    }
+
+    return maxSum;
+  }
+
+  // find the sublist in a list that has the largest sum
+  // Sliding window
+  public int[] findSublistThatHasTheLargestSum(int[] inputVal) {
+    int L = 0;
+    int maxL = 0;
+    int maxR = 0;
+    int cur = 0;
+    int max = inputVal[0];
+    for (int R = 0; R < inputVal.length; R++) {
+      if (cur < 0) {
+        cur = 0;
+        L = R;
+      }
+      cur += inputVal[R];
+      if (max < cur) {
+        max = cur;
+        maxL = L;
+        maxR = R;
+      }
+    }
+    int[] result = { maxL, maxR };
+    return result;
+  }
+
+  // Sliding window with fixed size list
+  // Return true if there are 2 duplicate elements in sub lists with size k
+  // Brute force solution with two loops
+  public boolean findTwoDuplicateValuesInFixedSizeSubListBruteForce(int[] inputList, int k) {
+    for (int L = 0; L < inputList.length; L++) {
+      for (int R = L + 1; R <= Math.min(inputList.length - 1, L + k - 1); R++) {
+        if (inputList[R] == inputList[L]) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  // Sliding fixed window solution
+  // if we need to find more than two duplicate values, we can use hashset
+  public boolean findTwoDuplicateSlidingFixedWindow(int[] inputList, int k) {
+    Set<Integer> window = new HashSet<>();
+    int L = 0;
+    for (int R = 0; R < inputList.length; R++) {
+      if (R - L + 1 > k) {
+        window.remove(inputList[L]);
+        L++;
+      }
+      if (window.contains(inputList[R])) {
+        return true;
+      }
+      window.add(inputList[R]);
+    }
+    return false;
+  }
+
+  // Sliding window with variable size
+  public int findTheLengthOfLongestArrayWithTheSameValueInEachPosition(int[] inputList) {
+    int L = 0;
+    int maxL = 0;
+    for (int R = 0; R < inputList.length; R++) {
+      if (inputList[L] != inputList[R]) {
+        L = R;
+      }
+      maxL = Math.max(maxL, R - L + 1);
+
+    }
+    return maxL;
+  }
+
+  // Find the minimum length subarray, where the sum is greater than or equal to
+  // the target. Assume all values are positive.
+  public int findMinimumLength(int[] inputList, int target) {
+    int L = 0;
+    int curSum = 0;
+    int minL = Integer.MAX_VALUE;
+    for (int R = 0; R < inputList.length; R++) {
+      curSum += inputList[R];
+      while (curSum > target) {
+        minL = Math.min(minL, R - L + 1);
+        curSum -= inputList[L];
+        L++;
+      }
+    }
+    if (minL == Integer.MAX_VALUE) {
+      return 0;
+    }
+    return minL;
+  }
+
+  // Two pointers
+  // move two pointers to shrink the array from left and right
+  // use length method to return the length of string
+  // use charAt to get character from string using index
+  public static boolean isPalindrome(String word) {
+    int L = 0;
+    int R = word.length() - 1;
+    while (L < R) {
+      if (word.charAt(L) != word.charAt(R)) {
+        return false;
+      }
+      L++;
+      R--;
+    }
+    return true;
+  }
+
+  // Target sum
+  public static int[] targetSum(int[] nums, int target) {
+    int L = 0;
+    int R = nums.length - 1;
+    while (L < R) {
+      if (nums[L] + nums[R] < target) {
+        L++;
+      } else if (nums[L] + nums[R] > target) {
+        R--;
+      } else {
+        int[] result = { L, R };
+        return result;
+      }
+    }
+    return null;
+  }
+
+  // Prefix sum
+  // Use prefix sum to calculate sum of sublists
+  public int[] buildPrefixSum(int[] inputList) {
+    int[] prefixSum = new int[inputList.length];
+    int sum = 0;
+    for (int i = 0; i < inputList.length; i++) {
+      sum += inputList[i];
+      prefixSum[i] = sum;
+    }
+    return prefixSum;
+  }
+
+  // Given an array of integer values, calculate sum of subarray from l to r
+  // indices
+  public int sumRange(int[] inputList, int l, int r) {
+    int[] prefixSum = buildPrefixSum(inputList);
+    return prefixSum[r] - prefixSum[l > 0 ? l - 1 : 0];
   }
 }
