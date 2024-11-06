@@ -1,6 +1,11 @@
 import java.util.Arrays;
 import java.util.PriorityQueue;
 
+//2542. Maximum Subsequence Score
+//use 2d array to store pair of num1 and num2 by pairs
+//Use minHeap to track the smallest value in window in nums1 to ensure the sum is largest
+//Sort pairs using comparator num2 in decending order to ensure the current checking pair always has the lowest num2 value
+//Do not need to check all cases if we using sorting and priority queue
 public class MaximumSubsequenceScore {
   public long maxScore(int[] nums1, int[] nums2, int k) {
     PriorityQueue<Integer> minHeap = new PriorityQueue<>();
