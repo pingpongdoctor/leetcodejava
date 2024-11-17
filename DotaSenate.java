@@ -23,7 +23,7 @@ public class DotaSenate {
     for (Character c : senate.toCharArray()) {
       senates.add(c);
     }
-    int i = 0;
+
     while (senates.size() > 1 && bans.size() <= senates.size()) {
       Character curSenate = senates.poll();
       if (!bans.isEmpty() && bans.peek().equals(curSenate)) {
@@ -32,10 +32,36 @@ public class DotaSenate {
         senates.add(curSenate);
         bans.add(curSenate == 'R' ? 'D' : 'R');
       }
-      i++;
     }
     return senates.peek() == 'R' ? "Radiant" : "Dire";
   }
 
   // optimal solution with radiants and dires queues
+  public String predictPartyVictory2(String senate) {
+    Queue<Integer> radiants = new LinkedList<>();
+    Queue<Integer> dires = new LinkedList<>();
+    int n = senate.length();
+    if (n == 1) {
+      return senate.charAt(0) == 'R' ? "Radiant" : "Dire";
+    }
+
+    for (int i = 0; i < n; i++) {
+      if (senate.charAt(i) == 'R') {
+        radiants.add(i);
+      } else {
+        dires.add(i);
+      }
+    }
+
+    while (!radiants.isEmpty() && !dires.isEmpty()) {
+      if (radiants.poll() > dires.poll()) {
+        dires.add(n);
+      } else {
+        radiants.add(n);
+      }
+      n++;
+    }
+
+    return radiants.isEmpty() ? "Dire" : "Radiant";
+  }
 }
