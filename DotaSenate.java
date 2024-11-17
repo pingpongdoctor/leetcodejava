@@ -1,6 +1,7 @@
 import java.util.LinkedList;
 import java.util.Queue;
 
+// 649. Dota Senate
 public class DotaSenate {
   Queue<Character> senates;
   Queue<Character> bans;
