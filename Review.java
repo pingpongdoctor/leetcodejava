@@ -421,7 +421,6 @@ public class Review {
     }
 
     cache[n] = fibonacciWithCaching(n - 1, cache) + fibonacciWithCaching(n - 2, cache);
-    ;
     return cache[n];
   }
 
@@ -463,7 +462,8 @@ public class Review {
   }
 
   public int bottomUpDfsMatrix(int[][] grid, int r, int c) {
-    // idea is that the last column is filled with 1 step, then we
+    // idea is that the last column is filled with 1 (number of unique path reaching
+    // bottom right corner), then we
     // calculate back from the base case
     int rows = grid.length;
     int cols = grid[0].length;
