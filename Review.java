@@ -338,7 +338,7 @@ public class Review {
       }
       adjList.get(src).add(dst);
     }
-    return new HashMap<String, ArrayList<String>>();
+    return adjList;
   }
 
   // DFS on adjacency list

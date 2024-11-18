@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-//2130. Maximum Twin Sum of a Linked List
+// 2130. Maximum Twin Sum of a Linked List
 class Solution {
   public class ListNode {
     int val;
