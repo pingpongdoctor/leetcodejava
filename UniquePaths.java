@@ -12,7 +12,6 @@ public class UniquePaths {
     if (catches[r][c] != 0) {
       return catches[r][c];
     }
-    int counts = 0;
     int right = dfs(rows, cols, r, c + 1, catches);
     int down = dfs(rows, cols, r + 1, c, catches);
     catches[r][c] = right + down;
