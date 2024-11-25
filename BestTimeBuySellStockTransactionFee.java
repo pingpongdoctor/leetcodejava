@@ -1,31 +1,27 @@
 public class BestTimeBuySellStockTransactionFee {
-  public int maxProfit(int[] prices, int fee) {
-    var n = prices.length;
-
-    // rec + memo (top-down)
-    return maxProfit(prices, fee, 0, 0, new Integer[n][2]);
-  }
-
-  private int maxProfit(int[] nums, int fee, int day, Integer haveStock, Integer[][] memo) {
-    if (day == nums.length) {
-      return 0;
+  class Solution {
+    // DFS + memoization (top-down solution)
+    private int dfs(int hold, int idx, int[] prices, int fee, Integer[][] memo) {
+      if (idx >= prices.length) {
+        return 0;
+      }
+      if (memo[idx][hold] != null) {
+        return memo[idx][hold];
+      }
+      int profit = dfs(hold, idx + 1, prices, fee, memo);
+      if (hold == 0) {
+        // Case 2: Buy stock
+        profit = Math.max(profit, dfs(1, idx + 1, prices, fee, memo) - prices[idx]);
+      } else {
+        // Case 3: Sell stock
+        profit = Math.max(profit, dfs(0, idx + 1, prices, fee, memo) + prices[idx] - fee);
+      }
+      memo[idx][hold] = profit;
+      return profit;
     }
 
-    if (memo[day][haveStock] != null) {
-      return memo[day][haveStock];
+    public int maxProfit(int[] prices, int fee) {
+      return dfs(0, 0, prices, fee, new Integer[prices.length][2]);
     }
-
-    var keepStockProfit = maxProfit(nums, fee, day + 1, haveStock, memo);
-
-    var operationProfit = 0;
-    if (haveStock == 1) {
-      // sell
-      operationProfit = nums[day] + maxProfit(nums, fee, day + 1, 0, memo) - fee;
-    } else {
-      // buy
-      operationProfit = maxProfit(nums, fee, day + 1, 1, memo) - nums[day];
-    }
-
-    return memo[day][haveStock] = Math.max(keepStockProfit, operationProfit);
   }
 }
