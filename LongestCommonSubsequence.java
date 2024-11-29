@@ -1,29 +1,22 @@
 // 1143. Longest Common Subsequence
 public class LongestCommonSubsequence {
   // bottom up solution
-  public int minDistance(String word1, String word2) {
-    int m = word1.length();
-    int n = word2.length();
-    int[] prev = new int[n + 1];
-    for (int i = m; i >= 0; i--) {
-      int[] cur = new int[n + 1];
-      if (i == m) {
-        for (int j = n - 1; j >= 0; j--) {
-          cur[j] = n - j;
-        }
-        prev = cur;
-        continue;
-      }
-      cur[n] = m - i;
-      for (int k = n - 1; k >= 0; k--) {
-        if (word2.charAt(k) == word1.charAt(i)) {
-          cur[k] = prev[k + 1];
+  public int longestCommonSubsequence(String text1, String text2) {
+    int m = text1.length();
+    int n = text2.length();
+    int[] prevRow = new int[n + 1];
+    for (int i = m - 1; i >= 0; i--) {
+      int[] curRow = new int[n + 1];
+      curRow[n] = 0;
+      for (int j = n - 1; j >= 0; j--) {
+        if (text1.charAt(i) == text2.charAt(j)) {
+          curRow[j] = prevRow[j + 1] + 1;
         } else {
-          cur[k] = Math.min(prev[k], Math.min(cur[k + 1], prev[k + 1])) + 1;
+          curRow[j] = Math.max(prevRow[j], curRow[j + 1]);
         }
       }
-      prev = cur;
+      prevRow = curRow;
     }
-    return prev[0];
+    return prevRow[0];
   }
 }
