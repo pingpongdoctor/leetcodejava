@@ -1,38 +1,43 @@
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 // 1268. Search Suggestions System
 // Trie and backtracking solution
+// using c - 'a' to get index of character and store its value in an array of 26 characters
+// convert index to char using (char) (index + 'a')
+// use ASCII to calculate char index
+// sort products first can make DFS order changed since the prefixed tree is built in different order
 public class SearchSuggestionsSystem {
   class TrieNode {
     boolean isEnd = false;
-    Map<Character, TrieNode> edges = new HashMap<>();
+    TrieNode[] children = new TrieNode[26];
   }
 
   private void insert(String word, TrieNode root) {
     TrieNode cur = root;
     for (char c : word.toCharArray()) {
-      if (!cur.edges.containsKey(c)) {
-        cur.edges.put(c, new TrieNode());
+      if (cur.children[c - 'a'] == null) {
+        cur.children[c - 'a'] = new TrieNode();
       }
-      cur = cur.edges.get(c);
+      cur = cur.children[c - 'a'];
     }
     cur.isEnd = true;
   }
 
   private void dfs(List<String> ans, TrieNode cur, StringBuilder curStr) {
+    if (ans.size() >= 3) {
+      return;
+    }
     if (cur.isEnd) {
       ans.add(curStr.toString());
     }
-    for (Map.Entry<Character, TrieNode> entry : cur.edges.entrySet()) {
-      char key = entry.getKey();
-      TrieNode value = entry.getValue();
-      curStr.append(key);
-      dfs(ans, value, curStr);
-      curStr.deleteCharAt(curStr.length() - 1);
+    for (int i = 0; i < 26; i++) {
+      if (cur.children[i] != null) {
+        curStr.append((char) ('a' + i));
+        dfs(ans, cur.children[i], curStr);
+        curStr.deleteCharAt(curStr.length() - 1);
+      }
     }
   }
 
@@ -40,28 +45,28 @@ public class SearchSuggestionsSystem {
     List<String> ans = new ArrayList<>();
     TrieNode cur = root;
     for (char c : word.toCharArray()) {
-      if (!cur.edges.containsKey(c)) {
+      if (cur.children[c - 'a'] == null) {
         return ans;
       }
-      cur = cur.edges.get(c);
+      cur = cur.children[c - 'a'];
     }
     // Gather all words starting with the current prefix
     StringBuilder curStr = new StringBuilder(word);
     dfs(ans, cur, curStr);
-
-    // Sort and return up to 3 suggestions
-    Collections.sort(ans);
-    return ans.size() > 3 ? new ArrayList<>(ans.subList(0, 3)) : ans;
+    return ans;
   }
 
   public List<List<String>> suggestedProducts(String[] products, String searchWord) {
     TrieNode root = new TrieNode();
+    Arrays.sort(products);
     for (String word : products) {
       insert(word, root);
     }
     List<List<String>> rs = new ArrayList<List<String>>();
-    for (int i = 0; i < searchWord.length(); i++) {
-      List<String> words = returnWords(searchWord.substring(0, i + 1), root);
+    StringBuilder prefix = new StringBuilder();
+    for (char c : searchWord.toCharArray()) {
+      prefix.append(c);
+      List<String> words = returnWords(prefix.toString(), root);
       rs.add(words);
     }
     return rs;
