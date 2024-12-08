@@ -3,6 +3,7 @@
 // sorting the intervals list and count the non overlapping intervals
 // update the last interval if it is not overlapping
 // jump to next interval if the current one is overlapping (delete the overlapping one)
+// use dp is not effiecient
 import java.util.Arrays;
 
 public class NonoverlappingIntervals {
