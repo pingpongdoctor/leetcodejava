@@ -15,9 +15,7 @@ public class MajorityElement {
       }
     }
     int rs = nums[0];
-    for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-      int key = entry.getKey();
-      int val = entry.getValue();
+    for (Integer val : map.values()) {
       if (val > times) {
         rs = val;
       }
