@@ -1,6 +1,19 @@
 //122. Best Time to Buy and Sell Stock II
 //topdpwn solution
 class BestTimeBuySellStockII {
+  public int maxProfit(int[] prices) {
+    // max profit is equivalent to the sum of profits that are obtained by selling
+    // when current day's price is greater than previous day's price
+    int profit = 0;
+    for (int i = 1; i < prices.length; i++) {
+      if (prices[i] > prices[i - 1]) {
+        profit += prices[i] - prices[i - 1];
+      }
+    }
+    return profit;
+  }
+
+  // DP topdown solution
   private int dfs(int[] prices, int idx, Integer[][] memo, int hold) {
     if (idx > prices.length - 1) {
       return 0;
@@ -21,7 +34,7 @@ class BestTimeBuySellStockII {
     return profit;
   }
 
-  public int maxProfit(int[] prices) {
+  public int maxProfit2(int[] prices) {
     return dfs(prices, 0, new Integer[prices.length][2], 0);
   }
 }
