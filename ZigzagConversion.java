@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
+//6. Zigzag Conversion
 //using two pointers method to navigate to row and column indices in order to build 2D array
 public class ZigzagConversion {
   public String convert(String s, int numRows) {
