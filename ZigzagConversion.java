@@ -9,6 +9,7 @@ public class ZigzagConversion {
       return s;
     }
 
+    @SuppressWarnings("unchecked")
     List<Character>[] rows = new List[numRows];
     for (int i = 0; i < numRows; i++) {
       rows[i] = new ArrayList<Character>();
