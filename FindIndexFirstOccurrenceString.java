@@ -16,30 +16,10 @@ public class FindIndexFirstOccurrenceString {
 
     int rs = -1;
 
-    for (int i = 0; i < haystack.length(); i++) {
-      char cur = haystack.charAt(i);
-
-      boolean isValid = false;
-
-      if (cur == needle.charAt(0)) {
-        int len = haystack.length() - 1 - i + 1;
-        if (len < needle.length()) {
-          break;
-        }
-
-        for (int j = 1; j < needle.length(); j++) {
-          if (haystack.charAt(i + j) != needle.charAt(j)) {
-            break;
-          }
-          if (j == needle.length() - 1) {
-            isValid = true;
-          }
-        }
-
-        if (isValid) {
-          rs = i;
-          break;
-        }
+    for (int i = 0; i < haystack.length() - needle.length() + 1; i++) {
+      if (haystack.substring(i, needle.length() + i).equals(needle)) {
+        rs = i;
+        break;
       }
     }
 
