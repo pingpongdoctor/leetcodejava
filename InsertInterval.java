@@ -13,22 +13,16 @@ public class InsertInterval {
     Collections.sort(list, (a, b) -> Integer.compare(a[0], b[0]));
     List<int[]> ans = new ArrayList<>();
     ans.add(list.get(0));
+    int[] last = list.get(0);
 
     for (int i = 1; i < list.size(); i++) {
       int[] cur = list.get(i);
-      int[] prev = ans.get(ans.size() - 1);
 
-      int start1 = prev[0];
-      int end1 = prev[1];
-      int start2 = cur[0];
-      int end2 = cur[1];
-
-      if (start1 <= end2 && end1 >= start2) {
-        int[] newArr = { Math.min(start1, start2), Math.max(end1, end2) };
-        ans.remove(ans.size() - 1);
-        ans.add(newArr);
+      if (cur[0] <= last[1]) {
+        last[1] = Math.max(cur[1], last[1]);
       } else {
         ans.add(cur);
+        last = cur;
       }
     }
 
