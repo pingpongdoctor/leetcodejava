@@ -9,27 +9,15 @@ public class MergeIntervals {
   public int[][] merge(int[][] intervals) {
     Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
     List<int[]> ans = new ArrayList<>();
+    ans.add(intervals[0]);
+    int[] last = intervals[0];
 
-    for (int i = 0; i < intervals.length; i++) {
-      if (i == 0) {
-        ans.add(intervals[i]);
-        continue;
-      }
-
-      int[] lastEle = ans.get(ans.size() - 1);
-      int start1 = lastEle[0];
-      int end1 = lastEle[1];
-
-      int[] curInterval = intervals[i];
-      int start2 = curInterval[0];
-      int end2 = curInterval[1];
-
-      if (end1 >= start2 && start1 <= end2) {
-        int[] newArr = { Math.min(start1, start2), Math.max(end1, end2) };
-        ans.remove(ans.size() - 1);
-        ans.add(newArr);
+    for (int i = 1; i < intervals.length; i++) {
+      if (intervals[i][0] <= last[1]) {
+        last[1] = Math.max(last[1], intervals[i][1]);
       } else {
         ans.add(intervals[i]);
+        last = intervals[i];
       }
     }
 
