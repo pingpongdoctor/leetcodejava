@@ -4,25 +4,32 @@ import java.util.Stack;
 //20. Valid Parentheses
 class ValidParentheses {
   public boolean isValid(String s) {
-    HashMap<Character,Character> closings = new HashMap<Character,Character>();
-    closings.put(')','(');
-    closings.put('}','{');
-    closings.put(']','[');
+    HashMap<Character, Character> map = new HashMap<Character, Character>();
+    map.put(')', '(');
+    map.put('}', '{');
+    map.put(']', '[');
 
-    Stack<Character> openings = new Stack<Character>();
-    for(int i=0;i<s.length();i++){
+    Stack<Character> stack = new Stack<Character>();
+    for (int i = 0; i < s.length(); i++) {
     }
 
-    for (int i=0; i<s.length();i++){
-      if(s.charAt(i)=='('||s.charAt(i)=='['||s.charAt(i)=='{'){
-        openings.push(s.charAt(i));
-      }else if (openings.isEmpty() || openings.pop() != closings.get(s.charAt(i))) {
-        return false;
+    for (Character c : s.toCharArray()) {
+      if (stack.size() == 0) {
+        stack.push(c);
+        continue;
+      }
+
+      // if c is an openning one
+      if (map.containsValue(c)) {
+        stack.push(c);
+        // if c is a closing one
+      } else if (map.containsKey(c)) {
+        if (!stack.pop().equals(map.get(c))) {
+          return false;
+        }
       }
     }
-    if(openings.isEmpty()){
-      return true;
-    }
-    return false;
+
+    return stack.isEmpty();
   }
 }
