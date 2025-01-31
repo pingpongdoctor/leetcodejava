@@ -36,8 +36,8 @@ public class RemoveNthNodeFromEndList {
 
     int idx = i - n;
     ListNode bf = map.get(idx - 1);
-    ListNode af = map.get(idx + 1);
-    bf.next = af;
+    ;
+    bf.next = bf.next.next;
     return dummyNode.next;
   }
 
