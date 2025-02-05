@@ -135,9 +135,8 @@ public class Review {
       return searchTargetInBinarySearchTree(root.right, target);
     } else if (root.val > target) {
       return searchTargetInBinarySearchTree(root.left, target);
-    } else {
-      return true;
     }
+    return true;
   }
 
   // review insert and remove node in BST
@@ -173,6 +172,7 @@ public class Review {
         root.right = removeTreeNode(root.right, minTreeNode.val);
       }
     }
+
     return root;
   }
 
@@ -229,13 +229,7 @@ public class Review {
     if (root.left == null && root.right == null) {
       return true;
     }
-    if (isTherePath(root.left)) {
-      return true;
-    }
-    if (isTherePath(root.right)) {
-      return true;
-    }
-    return false;
+    return isTherePath(root.left) || isTherePath(root.right);
   }
 
   // Matrix DFS
