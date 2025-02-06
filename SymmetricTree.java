@@ -1,7 +1,7 @@
 // 101. Symmetric Tree
 // Compare left and right branches
 // Compare right node of left branch with left node of right branch
-// Compare left node of right branch with right node of left branch
+// Compare left node of left branch with right node of right branch
 public class SymmetricTree {
   private boolean isMirror(TreeNode left, TreeNode right) {
     if (left == null && right == null) {

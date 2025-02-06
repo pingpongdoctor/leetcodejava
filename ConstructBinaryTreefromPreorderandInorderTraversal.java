@@ -1,64 +1,60 @@
 import java.util.HashMap;
 import java.util.Map;
+
 // 105. Construct Binary Tree from Preorder and Inorder Traversal
 class ConstructBinaryTreefromPreorderandInorderTraversal {
-    public class TreeNode {
+  public class TreeNode {
     int val;
     TreeNode left;
     TreeNode right;
-    TreeNode() {}
-    TreeNode(int val) { this.val = val; }
+
+    TreeNode() {
+    }
+
+    TreeNode(int val) {
+      this.val = val;
+    }
+
     TreeNode(int val, TreeNode left, TreeNode right) {
-        this.val = val;
-        this.left = left;
-        this.right = right;
+      this.val = val;
+      this.left = left;
+      this.right = right;
     }
   }
-  //USE MAP TO LOOK FOR ROOT INDEX IN INRODER ARRAY LEADS TO TIME COMPLEXITY n2 AND USE COPYOFRANGE LEAD TO MORE SPACE COMPLEXITY
 
-  // private int lookForIndex(int[] arr, int val){
-  //     int in = 0;
-  //     for (int i = 0;i<arr.length;i++){
-  //         if(arr[i]==val){
-  //             in = i;
-  //         }
-  //     }
-  //     return in;
-  // }
-
-
-  // public TreeNode buildTree(int[] preorder, int[] inorder) {
-  //     if(preorder.length==0){
-  //         return null;
-  //     }
-      
-  //     TreeNode root = new TreeNode(preorder[0]);
-  //     int m = lookForIndex(inorder, preorder[0]);
-
-  //     root.left = buildTree(Arrays.copyOfRange(preorder,1,m+1), Arrays.copyOfRange(inorder,0,m));
-  //     root.right = buildTree(Arrays.copyOfRange(preorder,m+1,preorder.length), Arrays.copyOfRange(inorder,m+1,inorder.length));
-  //     return root;
-  // }
-
-  //USE HASHMAP TO CATCH DATA TO LOWER SPACE COMPLEXITY AND AVOID CREATING NEW ARRAYS USING HELPER FUNCTION
-  Map<Integer,Integer> map = new HashMap<Integer,Integer>();
-
-  private TreeNode helper(int[] pre, int[] in, int preStart, int preEnd, int inStart, int inEnd){
-    if(preStart>preEnd||inStart>inEnd){
+  // cache data of inorder in hashmap
+  // a function accept preorder, map, start and end indices
+  // The solution is creating current node then recursively run the function to
+  // modify left and right branches before return it
+  // preorder idx is exploited for creating the new node
+  // map is utilized to get inorder idx that is employed for calculate ranges of
+  // left and right branches
+  private TreeNode builder(int[] preorder, int start, int end, Map<Integer, Integer> map, int preorderIdx) {
+    if (start > end) {
       return null;
     }
-    TreeNode root = new TreeNode(pre[preStart]);
-    int mid = map.get(pre[preStart]);
-    int leftTreeSize = mid - inStart;
-    root.left=helper(pre,in,preStart+1,preStart+leftTreeSize,inStart,mid-1);
-    root.right=helper(pre,in,preStart+leftTreeSize+1,preEnd,mid+1,inEnd);
+    int rootVal = preorder[preorderIdx];
+    TreeNode root = new TreeNode(rootVal);
+
+    int mid = map.get(rootVal);
+
+    root.left = builder(preorder, start, mid - 1, map, preorderIdx + 1);
+    root.right = builder(preorder, mid + 1, end, map, preorderIdx + (mid - start) + 1);
+
     return root;
   }
 
   public TreeNode buildTree(int[] preorder, int[] inorder) {
-    for(int i = 0; i<inorder.length; i++){
-      map.put(inorder[i],i);
+    if (preorder.length == 1) {
+      TreeNode newNode = new TreeNode(preorder[0]);
+      return newNode;
     }
-    return helper(preorder, inorder, 0, preorder.length-1, 0, inorder.length-1);
+
+    Map<Integer, Integer> map = new HashMap<>();
+    for (int i = 0; i < inorder.length; i++) {
+      map.put(inorder[i], i);
+    }
+
+    return builder(preorder, 0, preorder.length - 1, map, 0);
   }
 }
