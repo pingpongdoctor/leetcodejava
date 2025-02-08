@@ -1,37 +1,20 @@
-import java.util.ArrayList;
-
-//236. Lowest Common Ancestor of a Binary Tree
-//Use DFS to traverse to find the paths to two nodes
-//Use array list to save paths
-//Compare two lists to find the first different node in two path and return the node before which is the lowest common ancestor
+// 236. Lowest Common Ancestor of a Binary Tree
+// DFS
+// return nodes when traverse to the right and left
+// if two nodes on the same subtree, one node is null, then return root
+// if two nodes are on different subtrees, both of them are not null, then return the not null node
 public class LowestCommonAncestorBinaryTree {
-  private boolean dfs(TreeNode root, ArrayList<TreeNode> ans, TreeNode target) {
-    if (root == null) {
-      return false;
-    }
-    ans.add(root);
-    if (root == target) {
-      return true;
-    }
-    if (dfs(root.left, ans, target) || dfs(root.right, ans, target)) {
-      return true;
-    }
-    ans.remove(ans.size() - 1);
-    return false;
-  }
-
   public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-    ArrayList<TreeNode> ans1 = new ArrayList<>();
-    ArrayList<TreeNode> ans2 = new ArrayList<>();
-    dfs(root, ans1, p);
-    dfs(root, ans2, q);
-    int i = 0;
-    while (i < ans1.size() && i < ans2.size()) {
-      if (ans1.get(i) != ans2.get(i)) {
-        break;
-      }
-      i++;
+    if (root == null || root == p || root == q) {
+      return root;
     }
-    return ans1.get(i - 1);
+    TreeNode left = lowestCommonAncestor(root.left, p, q);
+    TreeNode right = lowestCommonAncestor(root.right, p, q);
+
+    if (left != null && right != null) {
+      return root;
+    }
+
+    return left == null ? right : left;
   }
 }
