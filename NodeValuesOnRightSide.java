@@ -5,30 +5,34 @@ import java.util.Queue;
 
 // 199. Binary Tree Right Side View
 class NodeValuesOnRightSide {
-  public List<Integer> rightSideView(TreeNode root) {
-      Queue<TreeNode> queue = new LinkedList<TreeNode>();
-      List<Integer> valueOnRightSide = new ArrayList<Integer>();
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> ans = new ArrayList<>();
+        if (root == null) {
+            return ans;
+        }
+        if (root.left == null && root.right == null) {
+            ans.add(root.val);
+            return ans;
+        }
 
-      if(root==null){
-          return valueOnRightSide;
-      }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
 
-      queue.add(root);
-      while(!queue.isEmpty()){
-          TreeNode rightMostNode = null;//get the valu on the right of each level
-          int levelSize = queue.size();
-          for(int i=0; i<levelSize; i++){//each iteration looping through nodes in each level from left to right
-              TreeNode cur = queue.remove();
-              rightMostNode = cur;
-              if(cur.left!=null){
-                  queue.add(cur.left);
-              }
-              if(cur.right!=null){
-                  queue.add(cur.right);
-              }
-          }
-          valueOnRightSide.add(rightMostNode.val); 
-      }
-      return valueOnRightSide;
-  }
+        while (queue.size() > 0) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode cur = queue.poll();
+                if (i == size - 1) {
+                    ans.add(cur.val);
+                }
+                if (cur.left != null) {
+                    queue.add(cur.left);
+                }
+                if (cur.right != null) {
+                    queue.add(cur.right);
+                }
+            }
+        }
+        return ans;
+    }
 }
