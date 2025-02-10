@@ -1,37 +1,26 @@
-import java.util.ArrayList;
-import java.util.List;
-
 // 230. Kth Smallest Element in a BST
+// use dfs to interpret inorder traversal
+// utilize a count variable to globally track the number of node that have been visited
 class KSmallestTreeNode {
-  List<Integer> l = new ArrayList<Integer>();
+    int ans = 0;
+    int count;
 
-  public class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
-    TreeNode() {}
-    TreeNode(int val) { this.val = val; }
-    TreeNode(int val, TreeNode left, TreeNode right) {
-        this.val = val;
-        this.left = left;
-        this.right = right;
+    private void dfs(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        dfs(root.left);
+        count--;
+        if (count == 0) {
+            ans = root.val;
+            return;
+        }
+        dfs(root.right);
     }
-  }
-  private void inorderTraverse(TreeNode root){
-      if(root==null){
-          return;
-      }
-      inorderTraverse(root.left);
-      l.add(root.val);
-      inorderTraverse(root.right);
-  }
 
-  private Integer getK(int k){
-      return this.l.get(k);
-  }
-
-  public int kthSmallest(TreeNode root, int k) {
-      inorderTraverse(root);
-      return getK(k-1);
-  }
+    public int kthSmallest(TreeNode root, int k) {
+        count = k;
+        dfs(root);
+        return ans;
+    }
 }
