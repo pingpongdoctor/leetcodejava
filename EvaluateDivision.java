@@ -8,65 +8,68 @@ import java.util.Queue;
 import java.util.Set;
 
 // 399. Evaluate Division
+// bfs to find the shortest path from s to e
 public class EvaluateDivision {
   class Pair {
     String node;
-    double value;
+    Double val;
 
-    public Pair(String node, double value) {
+    public Pair(String node, Double val) {
       this.node = node;
-      this.value = value;
+      this.val = val;
     }
   }
 
-  public Map<String, List<Pair>> buildAdjList(List<List<String>> equations, double[] values) {
-    Map<String, List<Pair>> graph = new HashMap<>();
+  private Map<String, List<Pair>> buildMap(List<List<String>> equations, double[] values) {
+    Map<String, List<Pair>> map = new HashMap<>();
+
     for (int i = 0; i < equations.size(); i++) {
       List<String> equation = equations.get(i);
-      String fr = equation.get(0);
-      String to = equation.get(1);
-      if (!graph.containsKey(fr)) {
-        graph.put(fr, new ArrayList<Pair>());
+      String divisor = equation.get(0);
+      String dividend = equation.get(1);
+
+      if (!map.containsKey(divisor)) {
+        map.put(divisor, new ArrayList<Pair>());
       }
-      if (!graph.containsKey(to)) {
-        graph.put(to, new ArrayList<Pair>());
+      if (!map.containsKey(dividend)) {
+        map.put(dividend, new ArrayList<Pair>());
       }
-      graph.get(fr).add(new Pair(to, values[i]));
-      graph.get(to).add(new Pair(fr, 1 / values[i]));
+      map.get(divisor).add(new Pair(dividend, values[i]));
+      map.get(dividend).add(new Pair(divisor, 1 / values[i]));
     }
-    return graph;
+    return map;
   }
 
-  public double bfs(Map<String, List<Pair>> graph, String s, String e) {
-    if (!graph.containsKey(s) || !graph.containsKey(e)) {
-      return -1;
+  private double bfs(Map<String, List<Pair>> map, String s, String e) {
+    if (!map.containsKey(s) || !map.containsKey(e)) {
+      return -1.00000;
     }
+
     if (s.equals(e)) {
-      return 1;
+      return 1.00000;
     }
+
     Queue<Pair> queue = new LinkedList<>();
     Set<String> visit = new HashSet<>();
-    queue.add(new Pair(s, 1));
+    queue.add(new Pair(s, 1.00000));
     visit.add(s);
     while (!queue.isEmpty()) {
-      int curSize = queue.size();
-      for (int i = 0; i < curSize; i++) {
+      int size = queue.size();
+      for (int i = 0; i < size; i++) {
         Pair cur = queue.poll();
-        String curNode = cur.node;
-        double curProduct = cur.value;
-        List<Pair> neighbors = graph.get(curNode);
-        for (Pair neighbor : neighbors) {
-          String nextNode = neighbor.node;
-          if (visit.contains(nextNode)) {
+        String curVal = cur.node;
+        double curProduct = cur.val;
+        if (curVal.equals(e)) {
+          return curProduct;
+        }
+        for (Pair n : map.get(curVal)) {
+          String nextVal = n.node;
+          double nextProduct = n.val;
+          if (visit.contains(nextVal)) {
             continue;
           }
-          double nextProduct = neighbor.value;
-          double newProduct = curProduct * nextProduct;
-          if (nextNode.equals(e)) {
-            return newProduct;
-          }
-          queue.add(new Pair(nextNode, newProduct));
-          visit.add(nextNode);
+          queue.add(new Pair(nextVal, curProduct * nextProduct));
+          visit.add(nextVal);
         }
       }
     }
@@ -74,14 +77,14 @@ public class EvaluateDivision {
   }
 
   public double[] calcEquation(List<List<String>> equations, double[] values, List<List<String>> queries) {
-    Map<String, List<Pair>> graph = buildAdjList(equations, values);
-    double[] returnValues = new double[queries.size()];
+    Map<String, List<Pair>> map = buildMap(equations, values);
 
-    for (int i = 0; i < queries.size(); i++) {
-      List<String> curQuery = queries.get(i);
-      double result = bfs(graph, curQuery.get(0), curQuery.get(1));
-      returnValues[i] = result;
+    double[] ans = new double[queries.size()];
+    for (int k = 0; k < queries.size(); k++) {
+      String s = queries.get(k).get(0);
+      String e = queries.get(k).get(1);
+      ans[k] = bfs(map, s, e);
     }
-    return returnValues;
+    return ans;
   }
 }
