@@ -18,9 +18,6 @@ public class CourseSchedule {
   public boolean canFinish(int numCourses, int[][] prerequisites) {
     Map<Integer, List<Integer>> map = new HashMap<Integer, List<Integer>>();
     int[] inDegree = new int[numCourses];
-    for (int d = 0; d < numCourses; d++) {
-      inDegree[d] = 0;
-    }
     for (int i = 0; i < prerequisites.length; i++) {
       int from = prerequisites[i][1];
       int to = prerequisites[i][0];
