@@ -12,7 +12,7 @@ import java.util.Stack;
 // pop the stack to get the most left node and return value
 // check if the popped node has an available right node
 // if yes, add the right node and traverse to the left of it to add left most nodes to the stack
-// by doing this, we can breack inorder traversal into next and hasnext functions
+// by doing this, we can break inorder traversal into next and hasnext functions
 public class BinarySearchTreeIterator {
   Queue<Integer> queue;
   Stack<TreeNode> stack;
@@ -35,6 +35,7 @@ public class BinarySearchTreeIterator {
     fillStack(root);
   }
 
+  // queue solution
   public int next() {
     return queue.poll();
   }
@@ -43,6 +44,7 @@ public class BinarySearchTreeIterator {
     return queue.size() > 0;
   }
 
+  //stack solution
   public int next2() {
     TreeNode cur = stack.pop();
     if (cur.right != null) {
