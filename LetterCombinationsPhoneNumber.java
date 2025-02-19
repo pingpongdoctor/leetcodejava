@@ -8,42 +8,36 @@ import java.util.Map;
 //for example: idx:0 of '234' indicates 'abc' corresponding to number 2. we loop through a,b,c. At a, we dfs to idx 1 as the nextlevel
 //com would be 'a', then 'ad', then, 'adj' and backtrack to 'ad' then 'adh', then backtrack to 'ad', then 'adi', then backtrack to 'ad', backtrack to 'a', then move on with 'ae' and so on
 public class LetterCombinationsPhoneNumber {
-  private void dfs(int idx, String digits, List<String> ans, StringBuilder com, Map<Integer, List<Character>> map) {
-    if (idx == digits.length()) {
-      ans.add(com.toString());
-      return;
-    }
-    List<Character> curList = map.get(digits.charAt(idx) - '0');
-    for (Character c : curList) {
-      com.append(c);
-      dfs(idx + 1, digits, ans, com, map);
-      com.deleteCharAt(com.length() - 1);
-    }
-  }
+  private void backtracking(Map<Character,String> map, List<String> ans, String digits, int idx, StringBuilder temp){
+    String newString = temp.toString();
 
-  public List<String> letterCombinations(String digits) {
-    Map<Integer, List<Character>> map = new HashMap<>();
-    Character start = 'a';
-    for (int i = 2; i <= 9; i++) {
-      int j = 0;
-      if (i == 7 || i == 9) {
-        j = 4;
-      } else {
-        j = 3;
-      }
-      map.put(i, new ArrayList<Character>());
-      while (j > 0) {
-        map.get(i).add(start);
-        start++;
-        j--;
-      }
+    if(idx==digits.length()){
+        ans.add(newString);
+        return;
     }
+
+    String cur = map.get(digits.charAt(idx));
+    for(char c : cur.toCharArray()){
+        temp.append(c);
+        backtracking(map,ans,digits,idx+1,temp);
+        temp.deleteCharAt(temp.length()-1);
+    }
+}
+public List<String> letterCombinations(String digits) {
     List<String> ans = new ArrayList<>();
-    if (digits.length() <= 0) {
-      return ans;
+    if(digits.length()==0){
+        return ans;
     }
-    StringBuilder com = new StringBuilder();
-    dfs(0, digits, ans, com, map);
+    Map<Character,String> map = new HashMap<>();
+    map.put('2',"abc");
+    map.put('3',"def"); 
+    map.put('4',"ghi"); 
+    map.put('5',"jkl"); 
+    map.put('6',"mno");
+    map.put('7',"pqrs"); 
+    map.put('8',"tuv"); 
+    map.put('9',"wxyz");
+    backtracking(map,ans,digits,0, new StringBuilder());
     return ans;
-  }
+}
 }
