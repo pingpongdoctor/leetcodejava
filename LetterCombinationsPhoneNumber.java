@@ -3,10 +3,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//17. Letter Combinations of a Phone Number with DFS and Backtracking solution
-//use cur idx to track which level we are being at in the tree
-//for example: idx:0 of '234' indicates 'abc' corresponding to number 2. we loop through a,b,c. At a, we dfs to idx 1 as the nextlevel
-//com would be 'a', then 'ad', then, 'adj' and backtrack to 'ad' then 'adh', then backtrack to 'ad', then 'adi', then backtrack to 'ad', backtrack to 'a', then move on with 'ae' and so on
+// 17. Letter Combinations of a Phone Number with DFS and Backtracking solution
 public class LetterCombinationsPhoneNumber {
   private void backtracking(Map<Character,String> map, List<String> ans, String digits, int idx, StringBuilder temp){
     String newString = temp.toString();
