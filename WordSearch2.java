@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
 
+// 212. Word Search II
+// dfs using trienode to save memory rather than using stringbuilder
 public class WordSearch2 {
     class TrieNode{
         String word;
