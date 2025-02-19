@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 // 77. Combinations
+// using dfs to traverse deeply to search for the answer and backtrack after finish a DFS path
+// remember to create a new list before adding it to ans list
+
 public class Combinations {
      private void backtracking(List<List<Integer>> ans, List<Integer> temp, int n, int val, int k){
         if(temp.size()==k){
