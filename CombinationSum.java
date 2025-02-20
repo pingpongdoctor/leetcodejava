@@ -6,24 +6,26 @@ import java.util.List;
 //Substract current sum from target, if target == 0, it does mean that sum == target
 //Only increment start index when recursively solve the right subtree
 class CombinationSum {
-  private List<List<Integer>> res = new ArrayList<List<Integer>>();
-  private List<Integer> subset = new ArrayList<Integer>();
+    private void dfs(int[] candidates, int target, List<Integer> temp, List<List<Integer>> ans, int cur, int idx){
+        if(cur>target){
+            return;
+        }
+        if(cur == target){
+            ans.add(new ArrayList<Integer>(temp));
+            return;
+        }
 
-  private void backTrack(int start, int[] candidates, int target){
-      if(target==0){
-          res.add(new ArrayList<>(subset));
-          return;
-      } else if(target<0||start>=candidates.length){
-          return;
-      }
-      subset.add(candidates[start]);
-      backTrack(start, candidates, target - candidates[start]);
-      subset.remove(subset.get(subset.size()-1));
-      backTrack(start + 1, candidates, target);
-  }
+        for(int i = idx; i<candidates.length; i++){
+            temp.add(candidates[i]);
+            dfs(candidates,target,temp,ans,cur+candidates[i],i);
+            temp.remove(temp.size()-1);
+        }
+    }
 
-  public List<List<Integer>> combinationSum(int[] candidates, int target) {
-      backTrack(0, candidates, target);
-      return res; 
-  }
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
+        dfs(candidates,target,temp,ans,0,0);
+        return ans;
+    }
 }
