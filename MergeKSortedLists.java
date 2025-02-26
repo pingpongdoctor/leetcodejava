@@ -29,8 +29,8 @@ public class MergeKSortedLists {
                     continue;
                 }
                 ListNode l2 = lists[i+1];
-                ListNode dummy = new ListNode();
-                ListNode p = dummy;
+                ListNode dum = new ListNode();
+                ListNode p = dum;
                 while(l1!=null && l2!=null){
                     if(l1.val<l2.val){
                         p.next = l1;
@@ -42,8 +42,8 @@ public class MergeKSortedLists {
                     p = p.next;
                 }
                 p.next = l1!=null ? l1 : l2;
-                temp.add(dummy.next);
-                dummy.next = null;
+                temp.add(dum.next);
+                dum.next = null;
             }
             lists = temp.toArray(new ListNode[(int) Math.ceil(len/2)]);
         }

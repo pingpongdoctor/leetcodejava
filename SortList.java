@@ -1,5 +1,5 @@
 // 148. Sort List
-// Implement merge sort on list
+// merge sort
 public class SortList {
     class ListNode{
         int val;

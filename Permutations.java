@@ -3,6 +3,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+// 46. Permutations
+// Backtracking
+// Use set to check already added values
 public class Permutations {
      private void dfs(int[] nums, Set<Integer> visit, List<Integer> temp, List<List<Integer>> ans){
         if(temp.size()==nums.length){
