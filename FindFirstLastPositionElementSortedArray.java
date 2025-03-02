@@ -30,7 +30,6 @@ public class FindFirstLastPositionElementSortedArray {
     public int[] searchRange(int[] nums, int target) {
         int left = findPos(nums,target,true);
         int right = findPos(nums,target,false);
-        int[] ans = {left,right};
-        return ans;
+        return new int[] {left,right};
     }
 }
