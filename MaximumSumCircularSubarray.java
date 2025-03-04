@@ -1,3 +1,6 @@
+// 918. Maximum Sum Circular Subarray
+// calculate min and total using Kadane algorithm
+// compare max and total - min
 public class MaximumSumCircularSubarray {
     public int maxSubarraySumCircular(int[] nums) {
         int minSum = 0;

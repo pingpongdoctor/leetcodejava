@@ -1,3 +1,5 @@
+// 35. Search Insert Position
+// binary search
 public class SearchInsertPosition {
     public int searchInsert(int[] nums, int target) {
         if(nums.length==1){

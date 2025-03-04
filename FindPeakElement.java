@@ -22,5 +22,5 @@ public class FindPeakElement {
         }
     }
     return -1;
-}
+  }
 }

@@ -1,4 +1,5 @@
 // 74. Search a 2D Matrix
+// binary search each row
 public class SearchMatrix {
     public boolean searchMatrix(int[][] matrix, int target) {
         int row = matrix.length;
