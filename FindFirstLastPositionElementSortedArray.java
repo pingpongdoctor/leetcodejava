@@ -1,5 +1,6 @@
 // 34. Find First and Last Position of Element in Sorted Array
 // Use binary search to search leftmost and rightmost target
+// Do not try to track for leftmost and rightmost values in an inner loop
 public class FindFirstLastPositionElementSortedArray {
     private int findPos(int[] nums, int target, boolean findLeft) {
         int L = 0;
