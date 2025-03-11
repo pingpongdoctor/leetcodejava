@@ -3,6 +3,8 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 // 373. Find K Pairs with Smallest Sums
+// use min heap to store pairs starting from index 0 of the nums2
+// everytime we poll a pair from heap, we add a new pair by checking the next index in the nums2
 public class FindKPairsSmallestSums {
      public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
         List<List<Integer>> ans = new ArrayList<>();
