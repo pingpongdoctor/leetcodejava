@@ -1,4 +1,6 @@
 // 9. Palindrome Number
+// Extract the last digit (remainder) of the number using modulo operation
+// Append the remainder to the reversed number by multiplying the current reverse by 10 and adding the remainder
 public class PalindromeNumber {
     public boolean isPalindrome(int x) {
         if(x<=9 && x>=0){
