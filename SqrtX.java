@@ -1,19 +1,21 @@
+// 69. Sqrt(x)
+// use binary search to search for mid value
+// since there is hard to get the precise mid value because it is a float number, when the loop ends, we can return the rounded R
 public class SqrtX {
     public int mySqrt(int x) {
-        float L = 1;
-        float R = x;
-
+        long L = 1;
+        long R = x;
+        int result = 0;
         while(L<=R){
-            float m = L + (R-L)/2;
-            float temp = m*m;
+            long m = L + (R-L)/2;
+            long temp =  (long) m*m;
             if(temp>x){
                 R = m-1;
-            } else if(temp<x){
+            } else if(temp<=x){
                 L = m+1;
-            } else {
-                return (int) Math.floor(m);
+                result = (int) m;
             }
         }
-        return (int) Math.round(R);
+        return result;
     }
 }
