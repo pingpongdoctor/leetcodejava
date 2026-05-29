@@ -1,3 +1,5 @@
+import java.util.HashSet;
+
 public class ContainsDuplicate {
     private void mergeSort(int[] nums, int l, int r) {
         if (l >= r) {
@@ -56,7 +58,8 @@ public class ContainsDuplicate {
         }
     }
 
-    public boolean containsDuplicate1(int[] nums) {
+    // 0(nlogn + n)
+    public boolean containsDuplicateUsingMergeSort(int[] nums) {
         boolean isDuplicate = false;
 
         if (nums.length <= 1) {
@@ -73,5 +76,19 @@ public class ContainsDuplicate {
         }
 
         return isDuplicate;
+    }
+
+    // O(n)
+    public boolean containsDuplicateUsingSet(int[] nums) {
+        HashSet<Integer> set = new HashSet<Integer>();
+
+        for(int num : nums) {
+            if(set.contains(num)) {
+                return true;
+            };
+            set.add(num);
+        }
+
+        return false;
     }
 }
