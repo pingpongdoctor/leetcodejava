@@ -23,6 +23,9 @@ Edge case of 2 nodes
 null<-1<-2  null
          p
              c  
+
+Time O(n)
+Space O(n)
          
 Test
 null<-1<-2<-3<-4<-5
