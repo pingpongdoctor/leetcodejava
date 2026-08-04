@@ -27,42 +27,129 @@ Test
 
 return true
 
+// class Solution1 {
+//     private Deque<Character> helper(String s) {
+//         Deque<Character> stack = new ArrayDeque<Character>();
+
+//         for (int i = 0; i < s.length(); i++) {
+//             char cur = s.charAt(i);
+
+//             if(cur == '#') {
+//                 if(!stack.isEmpty()) {
+//                     stack.pop();
+//                 }
+//             } else {
+//                 stack.push(cur);
+//             }
+//         }
+
+//         return stack;
+//     }
+
+//     public boolean backspaceCompare(String s, String t) {
+//         // Handle first string
+//         Deque<Character> stack1 = helper(s);
+//         // Handle second string
+//         Deque<Character> stack2 = helper(t);
+
+//         if (stack1.size() != stack2.size()) {
+//             return false;
+//         }
+
+//         while (stack1.size() > 0) {
+//             if(!stack1.pop().equals(stack2.pop())) {
+//                 return false;
+//             }
+//         }
+
+//         return true;
+//     }
+// }
+
 Solution 2: Traverse both strings from right to left and use skip counters to track backspaces. Skip invalid characters until reaching the next valid ones, then compare them. Return false if they differ; otherwise return true.
+
+a   b   #   c
+i
+a   d   #   c
+j
+
+skip1 = 0
+skip2 = 0
+
+the while loop runs as long as i >= 0 && j >= 0
+
+if cur = # -> increment counter and skip
+if cur != # and skip counter > 0 -> decrement counter and skip
+
+If two valid elements are not equal, return false
+
+    n   z   p  #    o   #   g
+i
+    b   #   n   z   p   #   o   #   g
+j
+
+skip1 = 0
+skip2 = 0
+
+Time complexity: O(m+n)
+Space complexity: O(1)
 */
 
 public class Leetcode844 {
-    private Deque<Character> helper(String s) {
-        Deque<Character> stack = new ArrayDeque<Character>();
-
-        for (int i = 0; i < s.length(); i++) {
-            char cur = s.charAt(i);
-
-            if(cur == '#') {
-                if(!stack.isEmpty()) {
-                    stack.pop();
-                }
-            } else {
-                stack.push(cur);
-            }
-        }
-
-        return stack;
-    }
-
     public boolean backspaceCompare(String s, String t) {
-        // Handle first string
-        Deque<Character> stack1 = helper(s);
-        // Handle second string
-        Deque<Character> stack2 = helper(t);
+        int i = s.length() - 1;
+        int j = t.length() - 1;
+        int skipS = 0;
+        int skipT = 0;
 
-        if (stack1.size() != stack2.size()) {
-            return false;
-        }
+        while (i >= 0 || j >= 0) {
+            //The inner loops are used for skipping invalid elements
+            while (i >= 0) {
+                char curS = s.charAt(i);
 
-        while (stack1.size() > 0) {
-            if(!stack1.pop().equals(stack2.pop())) {
+                if(curS == '#') {
+                    skipS++;
+                } else {
+                    if(skipS > 0) {
+                        skipS--;
+                    } else {
+                        break;
+                    }
+                }
+
+                i--;
+            }
+
+            while (j >= 0) {
+                char curT = t.charAt(j);
+
+                if(curT == '#') {
+                    skipT++;
+                } else {
+                    if(skipT > 0) {
+                        skipT--;
+                    } else {
+                        break;
+                    }
+                }
+
+                j--;
+            }
+
+            if(i < 0 && j < 0) {
+                return true;
+            }
+
+            if(i < 0 || j < 0) {
                 return false;
             }
+
+            if (s.charAt(i) != t.charAt(j)) {
+                return false;
+            }
+
+            i--;
+            j--;
         }
 
         return true;
