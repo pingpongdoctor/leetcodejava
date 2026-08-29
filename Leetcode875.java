@@ -16,9 +16,8 @@ int max = 5;
 while (min <= max){
     int mid = 4;
     total = 1 + 2 + 2 + 3 = 8
-    if total < h, update minimumSpeed = Math.min(minimumSpeed, mid), max = mid - 1
+    if total <= h, update minimumSpeed = Math.min(minimumSpeed, mid), max = mid - 1
     if total > h,  min = mid + 1;
-    if total == h, return mid
 
     return 4
 }
