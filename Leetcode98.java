@@ -38,20 +38,25 @@ public class Leetcode98 {
         return left && right;
     }
 
-    public boolean isValidBST2(TreeNode root) {
-        if(root == null) {
-            return true;
+     public boolean isValidBST2(TreeNode root) {
+        ArrayDeque<TreeNode> stack = new ArrayDeque<>();
+        TreeNode prev = null;
+
+        while(root != null || !stack.isEmpty()) {
+            while(root != null) {
+                stack.push(root);
+                root = root.left;
+            }
+
+            root = stack.pop();
+            if(prev != null && prev.val >= root.val) {
+                return false;
+            }
+            prev = root;
+            root = root.right;
         }
 
-        boolean left = isValidBST(root.left);
-
-        if (prev != null && prev.val >= root.val) { return false;}
-
-        prev = root;
-
-        boolean right = isValidBST(root.right);
-
-        return left && right;
+        return true;
     }
 } {
     
