@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.PriorityQueue;
 
 /**
 The distance between z and (0,0) is √x2 + y2), in which z is the piint we find and x,y are coordinates
@@ -13,23 +14,22 @@ Space complexity O(n)
 */
 
 public class Leetcode973{
-    public int[][] kClosest(int[][] points, int k) {
-        double[][] array = new double[points.length][2];
+    public int[][] kClosest1(int[][] points, int k) {
+        long[][] array = new long[points.length][2];
 
         for(int i = 0; i < points.length; i++) {
             int x = points[i][0];
             int y = points[i][1];
 
             long distance = (long)(x*x) + (long)(y*y);
-            array[i] = new double[] {distance, i};
+            array[i] = new long[] {distance, i};
         }
 
-        Arrays.sort(array, (a,b) -> Double.compare(a[0],b[0]));
+        Arrays.sort(array, (a,b) -> Long.compare(a[0],b[0]));
 
         int[][] result = new int[k][2];
 
         int j = 0;
-        
         for (int i = 0; i < k; i++) {
             int curIdx = (int) array[i][1];
             result[j] = points[curIdx];
@@ -37,6 +37,31 @@ public class Leetcode973{
         }
 
         return result;
-        
+    }
+
+    public int[][] kClosest2(int[][] points, int k) {
+        PriorityQueue<long[]> maxHeap = new PriorityQueue<>((a,b) -> Long.compare(b[0], a[0]));
+
+        for(int i = 0; i < points.length; i++) {
+            int x = points[i][0];
+            int y = points[i][1];
+
+            long distance = (long)(x*x) + (long)(y*y);
+            long[] newArray= new long[] {distance, i};
+            maxHeap.add(newArray);
+
+            if(maxHeap.size() > k) {
+                maxHeap.poll();
+            }
+        }
+
+        int[][] result = new int[k][2];
+        int j = 0;
+        while (!maxHeap.isEmpty()) {
+            result[j] = points[(int) maxHeap.poll()[1]];
+            j++;
+        }
+
+        return result;
     }
 }
