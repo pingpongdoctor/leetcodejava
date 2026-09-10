@@ -1,3 +1,5 @@
+import java.util.PriorityQueue;
+
 /**
 Solution 1: Max heap
 Solution 2: Finding the element at index n - k in a sorted array. We use Quickselect to divide the array into elements smaller, equal, and greater than areas with a randomly chosen pivot. Because we only need to search the side that contains our target index N - k, we discard the other half at each step. Having 3 partition areas handle the edge case of all duplicate elements and using the random pivot handles the edge case of having all elements on the right hand side bigger than the left ones. These cases are worst scenarios that increase the time complexity to O(n^2)
@@ -86,5 +88,21 @@ public class Leetcode215 {
                 return nums[expected];
             }
         }
-    }
+
+      public int findKthLargest(int[] nums, int k) {
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+
+        for (int val : nums) {
+            if (minHeap.size() < k) {
+                minHeap.add(val);
+            } else {
+                if (val > minHeap.peek()) {
+                    minHeap.poll();
+                    minHeap.add(val);
+                }
+            }
+        }
+
+        return minHeap.peek();
+        }
 }
