@@ -11,7 +11,10 @@ Space complexity: O(n)
 0   1   2   3   4
 1   3   1   3   100
 
+Solution 2: Bottom up solution. Break the current case into two sub problem 0 to n - 2 and 1 to n - 1 and run the bottomUp function on these sub problem to calculate the maximum amount of money robbed from right to left using the base cases of robbing last house and robbing last two houses
 
+Time complexity: O(n)
+Space complexity: O(1)
 */
 
 public class Leetcode213 {
@@ -49,5 +52,30 @@ public class Leetcode213 {
         }
 
         return max;
+    }
+
+    public int rob2(int[] nums) {
+        if (nums.length == 1) {
+            return nums[0];
+        }
+
+        if(nums.length == 2) {
+            return Math.max(nums[0], nums[1]);
+        }
+
+        return Math.max(bottomUp(nums, 0, nums.length - 2), bottomUp(nums, 1, nums.length - 1));
+    }
+
+    private int bottomUp(int[] nums, int i, int j) {
+        int next = nums[j];
+        int cur = Math.max(nums[j - 1], next);
+
+        for (int k = j - 2; k >= i; k--) {
+            int temp = cur;
+            cur = Math.max(nums[k] + next, cur);
+            next = temp;
+        }
+
+        return cur;
     }
 }
