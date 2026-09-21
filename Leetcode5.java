@@ -23,6 +23,24 @@ For each substring, it takes O(n) to check if it is a palindorm using two pointe
 Time complexity: O(n^3)
 
 Space complexity: O(n)
+
+Solution 2: Check all substrings from the center. There are two types of substrings. One has an even number of characters and the other has an odd number of characters. The even type has 2 charater as the center of the palindrom while the odd time has only 1 character as the center of the it.
+
+procress each single character using 1 for loop
+
+each iteration
+at each character, try to expand twowards both sides to look for the longest palindroms with even number of characters
+at each chatacter, check if i character is equal to i+1 character. If yes, expand outward to look for the longest palindroms with odd number of characters.
+
+return the palindrom with maximum character
+
+Time complexity: O(n^2)
+Space complexity: O(1)
+
+Solution 3: Dynamic programming. Instead of solving the whole problem, we solve sub problem. we know that all single charater is the palindrom. We know that string with two identical characters are the palindrom too. We can use a 2d array to visualize the states true or false of each square where each quare indicates the substrings. We will fill the square diagonally to find the longest substring.
+
+Time complexity: O(n^2)
+Space complexity: O(n^2)
 */
 
 public class Leetcode5 {
@@ -105,6 +123,43 @@ public class Leetcode5 {
                     max = r2 - l2 + 1;
                     start = l2;
                     end = r2;
+                }
+            }
+        }
+
+        return s.substring(start, end+1);
+    }
+
+    public String longestPalindrome3(String s) {
+        int[][] dp = new int[s.length()][s.length()];
+        int max = 1;
+        int start = 0;
+        int end = 0;
+
+        for (int i = 0; i < s.length(); i++) {
+            dp[i][i] = 1;
+
+            if(i + 1 < s.length() && s.charAt(i) == s.charAt(i+1)) {
+                dp[i][i+1] = 1;
+                if(max < 2) {
+                    max = 2;
+                    start = i;
+                    end = i + 1;
+                }
+            }
+        }
+
+        for (int len = 3; len <= s.length(); len++) {
+            for(int l = 0; l <= s.length()-len; l++) {
+                int r = len + l - 1;
+                if(s.charAt(l) == s.charAt(r) && dp[l+1][r-1] == 1) {
+                    dp[l][r] = 1;
+
+                    if(len > max) {
+                        start = l;
+                        end = r;
+                        max = len;
+                    }
                 }
             }
         }
