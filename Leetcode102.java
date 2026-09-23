@@ -12,6 +12,9 @@
  *         this.right = right;
  *     }
  * }
+ * Time complexity:
+ * Space compexity:
+ * 
  */
 class Solution {
     public List<List<Integer>> levelOrder(TreeNode root) {
@@ -21,19 +24,19 @@ class Solution {
             return result;
         }
 
-        ArrayDeque<TreeNode> queue = new ArrayDeque<>();
-        queue.offer(root);
+        ArrayDeque<TreeNode> myQueue = new ArrayDeque<>();
+        myQueue.offer(root);
 
-        while(!queue.isEmpty()) {
+        while(!myQueue.isEmpty()) {
             List<Integer> element = new ArrayList<>();
-            int size = queue.size();
+            int size = myQueue.size();
             for (int i = 0; i < size; i++) {
-                TreeNode cur = queue.poll();
+                TreeNode cur = myQueue.poll();
                 if(cur.left != null) {
-                    queue.offer(cur.left);
+                    myQueue.offer(cur.left);
                 }
                 if(cur.right != null) {
-                    queue.offer(cur.right);
+                    myQueue.offer(cur.right);
                 }
                 element.add(cur.val);
             }
