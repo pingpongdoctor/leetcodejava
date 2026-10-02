@@ -26,6 +26,16 @@ i = 3
 cur = 3
 j = 2
 
+Tails array solution
+Add element to the tails to expand it if the element is greater than the tail last element on the right
+If the new element added is less than or equal to the last element, use binary search to search for the first element that is greater than or equal to the new element and replace it with the new element
+
+[0,1,0,3,2,3]
+
+[0,1,2,3]
+
+return 4
+
 */
 
 
@@ -91,5 +101,46 @@ public class Leetcode300 {
         }
 
         return max;
+    }
+
+     public int lengthOfLISTailsArray(int[] nums) {
+        int[] tails = new int[nums.length];
+        int k = 0;
+
+        for (int i = 0; i < nums.length; i++) {
+            if(k==0) {
+                tails[k] = nums[i];
+                k++;
+                continue;
+            }
+
+            if(tails[k-1] < nums[i]) {
+                tails[k] = nums[i];
+                k++;
+                continue;
+            }
+
+            int l = 0;
+            int r = k - 1;    
+            int cur = nums[i];      
+            int validIdx = 0;
+
+            while(l <= r) {
+                int m = l + (r-l)/2;
+                if (tails[m] < cur) {
+                    l = m + 1;
+                } else if(tails[m] > cur) {
+                    r = m - 1;
+                    validIdx = m;
+                } else {
+                    validIdx = m;
+                    break;
+                }
+            }
+
+            tails[validIdx] = cur;
+        }
+
+        return k;
     }
 }
