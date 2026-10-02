@@ -30,12 +30,14 @@ Tails array solution
 Add element to the tails to expand it if the element is greater than the tail last element on the right
 If the new element added is less than or equal to the last element, use binary search to search for the first element that is greater than or equal to the new element and replace it with the new element
 
+Time complexity: O(nlogn)
+Space complexity: O(n)
+
 [0,1,0,3,2,3]
 
 [0,1,2,3]
 
 return 4
-
 */
 
 
