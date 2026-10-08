@@ -2,6 +2,7 @@
 Using the max heap to track the two largest stones in the list
 Add [2,7,4,1,8,1] to max heap
 poll first two elements and calculate the smashing result then add it back to the max heap if it is greater than 0
+
 Time complexity: O(nlogn)
 Space complexity: O(n)
 */
@@ -11,7 +12,7 @@ public class Leetcode1046 {
             return stones[0];
         }
 
-        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a,b)->Integer.compare(b,a));
 
         for(int num : stones) {
             maxHeap.add(num);
